@@ -1,0 +1,44 @@
+#
+# Set environment variables
+#
+
+[username@cetuslac1 ~]$ export BG_PYTHON=/bgsys/tools/python2.7.5-gnu-20130730/bin/python
+[username@cetuslac1 ~]$ export BG_PYTHON_LIB=/bgsys/tools/python2.7.5-gnu-20130730/lib64
+
+#
+# Submission of a python script
+#
+
+file: submit.sh
+
+------------------------------------------------------------------------------------------------------
+qsub -n 128  -t 20 -A MyProject --env LD_LIBRARY_PATH=$BG_PYTHON_LIB $BG_PYTHON ./hello_world.py
+------------------------------------------------------------------------------------------------------
+
+NOTE: Remember to modify 'MyProject' to associate the job with the allocation for one of the projects
+      that you belong to. This is used to properly account for machine usage. For Getting Started
+      Workshop participants, add "-q GSW14" to the qsub command to use the workshop reservation
+
+file: hello_world.py
+
+-------------------------------------------------------------------------------------------------------
+#!/bgsys/tools/python2.7.5-gnu-20130730/bin/python
+#
+# sample submit line(s):
+#
+#   export BG_PYTHON=/bgsys/tools/python2.7.5-gnu-20130730/bin/python
+#   export BG_PYTHON_LIB=/bgsys/tools/python2.7.5-gnu-20130730/lib64
+#   qsub -n 128  -t 20 -A MyProject --env LD_LIBRARY_PATH=$BG_PYTHON_LIB $BG_PYTHON ./hello_world.py
+#
+
+from mpi4py import MPI
+import sys
+
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
+size = comm.Get_size()
+
+print "Hello World from rank %s of %s" %(rank,size)
+
+sys.exit()
+-------------------------------------------------------------------------------------------------------

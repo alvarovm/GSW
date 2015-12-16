@@ -1,0 +1,45 @@
+Compile:
+
+  mpixlc_r -O3 -qsmp=omp -g -o hello_mpi_openmp hello.c
+
+Here is the Cobalt command to submit a job
+
+  qsub -t 5 -n 4 --mode c16 --env OMP_NUM_THREADS=4 -A ALCF_Getting_Started -q GSW14 hello_mpi_openmp
+
+(If you have other environment variables to set, separate them with ":",
+something like --env OMP_NUM_THREADS=4:BG_THREADLAYOUT=1.) If the Cobalt job
+id is 227054, you should see output like the following in 227054.output when
+the run completes:
+
+Hello world from rank 0, thread 3
+Hello world from rank 0, thread 0
+Rank 0 number of threads= 4
+Hello world from rank 0, thread 2
+Hello world from rank 0, thread 1
+Hello world from rank 1, thread 1
+Hello world from rank 1, thread 3
+Hello world from rank 1, thread 2
+Hello world from rank 1, thread 0
+Rank 1 number of threads= 4
+Hello world from rank 2, thread 1
+Hello world from rank 2, thread 3
+Hello world from rank 2, thread 0
+Rank 2 number of threads= 4
+Hello world from rank 2, thread 2
+Hello world from rank 3, thread 1
+...
+...bunch of other ranks' output
+...
+Hello world from rank 61, thread 1
+Hello world from rank 61, thread 3
+Hello world from rank 61, thread 2
+Hello world from rank 62, thread 2
+Hello world from rank 62, thread 0
+Rank 62 number of threads= 4
+Hello world from rank 62, thread 1
+Hello world from rank 62, thread 3
+Hello world from rank 63, thread 1
+Hello world from rank 63, thread 0
+Rank 63 number of threads= 4
+Hello world from rank 63, thread 2
+Hello world from rank 63, thread 3

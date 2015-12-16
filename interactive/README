@@ -1,0 +1,50 @@
+
+#
+# Job submission of an interactive job
+#
+
+# For Getting Started Workshop participants, add "-q GSW14" to the qsub command to use the workshop reservation
+
+[username@cetuslac1 ~]$ qsub --interactive -t 5 -n 16
+project: Catalyst
+Wait for job 204601 to start...
+Opening interactive session to CET-20000-31331-128
+
+#
+# Checking that it is really interactive, that it is running and the block/location 
+#
+
+[username@cetuslac1 ~]$ qstat -u <username>
+JobId   Score    JobName  Project   User     WallTime  RunTime   Nodes  Mode         State    Queue    Location             
+============================================================================================================================
+204601    1.0    N/A      Catalyst  username  00:05:00  00:01:44  16     interactive  running  default  CET-20000-31331-128
+
+#
+# Runjob commands to launch interactive job and screen output
+#
+
+[username@cetuslac1 ~]$ runjob --block CET-20000-31331-128 : a.out
+
+2014-01-21 14:57:43.043 (INFO ) [0xfffb6f8b990] 21615:ibm.runjob.AbstractOptions: using properties file /bgsys/local/etc/bg.properties
+2014-01-21 14:57:43.044 (INFO ) [0xfffb6f8b990] 21615:ibm.runjob.AbstractOptions: max open file descriptors: 65536
+2014-01-21 14:57:43.044 (INFO ) [0xfffb6f8b990] 21615:ibm.runjob.AbstractOptions: core file limit: 18446744073709551615
+2014-01-21 14:57:43.045 (INFO ) [0xfffb6f8b990] 21615:tatu.runjob.client: scheduler job id is 204601
+2014-01-21 14:57:43.048 (INFO ) [0xfffb5bb3290] 21615:tatu.runjob.monitor: monitor started
+2014-01-21 14:57:43.049 (INFO ) [0xfffb6f8b990] CET-20000-31331-128:21615:ibm.runjob.client.options.Parser: set local socket to runjob_mux from properties file
+2014-01-21 14:57:44.706 (INFO ) [0xfffb6f8b990] CET-20000-31331-128:321930:ibm.runjob.client.Job: job 321930 started
+...
+user output in here
+...
+2014-01-21 14:57:46.525 (INFO ) [0xfffb6f8b990] CET-20000-31331-128:321930:ibm.runjob.client.Job: exited with status 0
+2014-01-21 14:57:46.525 (INFO ) [0xfffb6f8b990] tatu.runjob.client: task exited with status 0
+2014-01-21 14:57:50.011 (INFO ) [0xfffb5bb3290] 21615:tatu.runjob.monitor: tracklib completed
+2014-01-21 14:57:50.011 (INFO ) [0xfffb5bb3290] 21615:tatu.runjob.monitor: monitor terminating
+2014-01-21 14:57:50.013 (INFO ) [0xfffb6f8b990] tatu.runjob.client: monitor completed
+
+#
+# Exiting interactive job shell
+#
+
+[username@cetuslac1 ~]$ exit
+exit
+Exiting interactive job 204601

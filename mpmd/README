@@ -1,0 +1,43 @@
+MPMD Example
+============
+
+This example demonstrates how to use the BG/Q funcationality for multiple 
+program, multiple data. Multiple executables can be run which share the same
+MPI_COMM_WORLD.
+
+Makefile - makefile for building executables
+exe1.c - source for exe1.x
+exe2.c - source for exe2.x
+exe1.x - bg/q executable
+exe2.x - bg/q executable  
+mapfile - special mapping file used runjob
+submit.sh - script to submit the job
+script.sh - script executed by job which executes runjob
+
+The example submits a job on 128 nodes with 16 ranks-per-node, or 2048 ranks
+in total. exe1.x is run on ranks 0-1023 and exe2.x is run on ranks 1023-2047.
+
+The specification for the multiple executables is handled within the mapfile.
+
+mapfile
+=======
+#mpmdbegin 0-1023 <- ranks this exe will run on
+#mpmdcmd exe1.x <- exe name
+#mpmdend
+#mpmdbegin 1024-2047
+#mpmdcmd exe2.x
+#mpmdend
+#mapping ABCDET <- either a default mapping or specify individual rank map
+
+source
+======
+The two sources are trivial and just differ by the name in the output
+of standard out.
+
+building
+========
+'make' will build the two binaries.
+
+running
+=======
+./submit.sh

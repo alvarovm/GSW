@@ -1,0 +1,20 @@
+To build all 3 codes (C, C++, Fortran), you can either just run "make" with no
+arguments:
+
+   make
+
+
+In this example, we are going to use the Cobalt "script" mode. When you issue
+the qsub command, you will give it a pathname for a script (bash, csh, or
+other script type) rather than the pathname for your executable program.
+
+Here is the Cobalt command to submit a job (shown for the C++ code):
+
+     qsub script.sh
+
+See the file script.sh. In there, note the use of the runjob command to
+execuate your program (rather than qsub, since we're using qsub to submit the
+script instead of submitting the executable directly).
+
+As with basic qsub (non-script mode), your qsub in mode script command should
+echo a number to the screen, which is the Cobalt job id. 

@@ -1,0 +1,7 @@
+#mpmdbegin 0-1023
+#mpmdcmd exe1.x
+#mpmdend
+#mpmdbegin 1024-2047
+#mpmdcmd exe2.x
+#mpmdend
+#mapping ABCDET

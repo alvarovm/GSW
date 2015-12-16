@@ -1,0 +1,110 @@
+
+#
+# COBALT submission scripts
+#
+
+file: submit.sh
+
+------------------------------------------------------------------------------------------------------
+#
+# This can be run at different sizes and any size is split into 512 node
+# blocks then each block runs a set of subblock jobs.
+#
+#qsub -A MyProject -n 2048 -t 00:15:00 --disable_preboot --mode script ./run_everything.sh
+qsub -A MyProject -n 1024 -t 00:15:00 --disable_preboot --mode script ./run_everything.sh
+#qsub -A MyProject -n 512 -t 00:15:00 --disable_preboot --mode script ./run_everything.sh
+------------------------------------------------------------------------------------------------------
+
+NOTE: Remember to modify 'MyProject' to associate the job with the allocation for one of the projects
+      that you belong to. This is used to properly account for machine usage. For Getting Started
+      Workshop participants, add "-q Q.GSW14" to the qsub command to use the workshop reservation
+
+
+file: run_everything.sh
+
+-------------------------------------------------------------------------------------------------------
+#!/bin/bash
+
+LOCARGS="--block $COBALT_PARTNAME ${COBALT_CORNER:+--corner} $COBALT_CORNER ${COBALT_SHAPE:+--shape} $COBALT_SHAPE"
+
+echo "LOCARGS = " $LOCARGS
+echo "COBALT_PARTNAME = " $COBALT_PARTNAME
+echo "COBALT_CORNER   = " $COBALT_CORNER
+echo "COBALT_SHAPE    = " $COBALT_SHAPE
+
+exe=$HOME/MY_EXECUTABLE
+
+# per-subjob arguments: 256 ranks, 1 rank per node
+runjob_args="--verbose INFO -n 256 -p 1 : $exe"
+
+
+BLOCKS=`get-bootable-blocks --size 512 $COBALT_PARTNAME` 
+
+#
+# Booting blocks
+#
+
+for BLOCK in $BLOCKS
+do
+
+  boot-block --block $BLOCK & 
+
+done
+wait
+
+#
+# Loading blocks
+#
+for BLOCK in $BLOCKS
+do
+  shape="4x2x4x4x2"
+  corner_list=$(/soft/cobalt/bgq_hardware_mapper/get-corners.py $BLOCK $shape)
+  for corner in $corner_list 
+  do
+    echo starting job on corner $corner
+    runjob --block $BLOCK --corner $corner --shape $shape $runjob_args &
+    sleep 10
+  done
+done
+
+#
+# Releasing blocks 
+#
+
+for BLOCK in $BLOCKS
+do
+
+  boot-block --block $BLOCK --free & 
+
+done
+wait
+-------------------------------------------------------------------------------------------------------
+
+NOTE: Remember to modify the variables 'exe' to point to your own executable file and 'runjob_args'
+      to set your needs.
+
+
+#
+# Example of job output
+#
+#
+LOCARGS =  --block MIR-08800-3BB71-1-1024
+COBALT_PARTNAME =  MIR-08800-3BB71-1-1024
+COBALT_CORNER   = 
+COBALT_SHAPE    = 
+harms/237626: Block MIR-08840-3BB71-512 for location MIR-08840-3BB71-512 successfully booted (Initiating). 
+Boot for location MIR-08840-3BB71-512 complete.
+harms/237626: Block MIR-08800-3BB31-512 for location MIR-08800-3BB31-512 successfully booted (Initiating). 
+Boot for location MIR-08800-3BB31-512 complete.
+starting job on corner R26-M1-N00-J00
+hello, world: (null) COBALT_JOBID=237626
+starting job on corner R26-M1-N08-J04
+hello, world: (null) COBALT_JOBID=237626
+starting job on corner R26-M0-N00-J00
+hello, world: (null) COBALT_JOBID=237626
+starting job on corner R26-M0-N08-J04
+hello, world: (null) COBALT_JOBID=237626
+Block free on MIR-08800-3BB31-512 initiated.
+Block free on MIR-08840-3BB71-512 initiated.
+Block MIR-08800-3BB31-512 successfully freed.
+Block MIR-08840-3BB71-512 successfully freed.
