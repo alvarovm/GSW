@@ -4,7 +4,7 @@ Compile:
 
 Here is the Cobalt command to submit a job
 
-  qsub -t 5 -n 4 --mode c16 --env OMP_NUM_THREADS=4 -A ALCF_Getting_Started -q GSW14 hello_mpi_openmp
+  qsub -t 5 -n 4 --mode c16 --env OMP_NUM_THREADS=4 -A ALCF_Getting_Started -q training hello_mpi_openmp
 
 (If you have other environment variables to set, separate them with ":",
 something like --env OMP_NUM_THREADS=4:BG_THREADLAYOUT=1.) If the Cobalt job

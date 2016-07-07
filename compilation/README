@@ -6,7 +6,7 @@ arguments:
 
 Here is the Cobalt command to submit a job (shown for the C++ code):
 
-     qsub -t 5 -n 16 --mode c1 -A ALCF_Getting_Started -q GSW15  hello_mpi_f90
+     qsub -t 5 -n 16 --mode c1 -A ALCF_Getting_Started -q training  hello_mpi_f90
 
 This should echo a number to the screen, which is the Cobalt job id. To see
 status of your job, if the job id was 227054, say, use the following Cobalt

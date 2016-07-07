@@ -3,7 +3,7 @@
 # Job submission of an interactive job
 #
 
-# For Getting Started Workshop participants, add "-q GSW14" to the qsub command to use the workshop reservation
+# For Getting Started Workshop participants, add "-q training" to the qsub command to use the workshop reservation
 
 [username@cetuslac1 ~]$ qsub --interactive -t 5 -n 16
 project: Catalyst

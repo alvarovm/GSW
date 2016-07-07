@@ -1,5 +1,5 @@
 FC = mpixlf90_r
-OPTFLAGS = O3 -qarch=qp -qtune=qp -qstrict
+OPTFLAGS = -O3 -qarch=qp -qtune=qp -qstrict
 FFLAGS = $(OPTFLAGS) -g 
 
 all:  hello_mpi_f90

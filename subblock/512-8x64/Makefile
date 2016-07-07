@@ -1,4 +1,4 @@
-CC=mpixlc
+CC=mpixlc_r
 
 all: test.x
 

@@ -1,4 +1,4 @@
-CC=mpixlc
+CC=mpixlc_r
 
 all: exe1.x exe2.x
 

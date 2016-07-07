@@ -1,5 +1,5 @@
 FC = mpixlc_r
-OPTFLAGS = O3 -qsmp=omp
+OPTFLAGS = -O3 -qsmp=omp
 FFLAGS = $(OPTFLAGS) -g 
 
 all:  hello_omp
